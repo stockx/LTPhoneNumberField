@@ -10,4 +10,6 @@
 
 @interface LTViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UITextField *phoneNumber;
+
 @end
