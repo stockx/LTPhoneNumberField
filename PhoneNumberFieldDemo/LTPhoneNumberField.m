@@ -9,8 +9,6 @@
 #import "LTPhoneNumberField.h"
 #import <NBAsYouTypeFormatter.h>
 
-static NSString *const defaultRegion = @"US";
-
 @interface LTPhoneNumberField () <UITextFieldDelegate>
 
 @property (nonatomic, strong) NBAsYouTypeFormatter *formatter;
@@ -35,7 +33,7 @@ static NSString *const defaultRegion = @"US";
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [self initWithFrame:frame regionCode:defaultRegion];
+    self = [self initWithFrame:frame regionCode:nil];
     return self;
 }
 
@@ -43,13 +41,14 @@ static NSString *const defaultRegion = @"US";
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self setupWithRegionCode:defaultRegion];
+        [self setupWithRegionCode:nil];
     }
     return self;
 }
 
 - (void)setupWithRegionCode:(NSString *)region
 {
+    region = region ?: [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
     self.formatter = [[NBAsYouTypeFormatter alloc] initWithRegionCode:region];
     super.delegate = self;
 }
