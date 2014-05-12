@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LTViewController : UIViewController
+@interface LTViewController : UIViewController <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumber;
 

@@ -10,4 +10,17 @@
 
 @implementation LTViewController
 
+- (void)viewDidLoad
+{
+    self.phoneNumber.delegate = self;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if ([string isEqualToString:@"0"]) {
+//        return NO;
+    }
+    return YES;
+}
+
 @end
