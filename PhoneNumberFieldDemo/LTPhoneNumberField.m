@@ -96,22 +96,23 @@ static NSString *const defaultRegion = @"US";
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    NSString *newText = nil;
-    // When the range is invalid for the current message bar text ignore text change
-    @try {
-        newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    BOOL singleInsertAtEnd = (string.length == 1) && (range.location == textField.text.length);
+    BOOL singleDeleteFromEnd = (string.length == 0) && (range.length == 1) && (range.location == textField.text.length - 1);
+
+    if (singleInsertAtEnd) {
+        NSString *number = [self.formatter inputDigit:string];
+        textField.text = number;
+    } else if (singleDeleteFromEnd) {
+        NSString *number = [self.formatter removeLastDigit];
+        textField.text = number;
     }
-    @catch (NSException *exception) {
-        NSLog(@"Exception occurred on LTPhoneNumberField textFieldShouldChangeCharactersInRange:(%lu,%lu) replacementString:%@", (unsigned long)range.location, (unsigned long)range.length, string);
-        NSAssert(NO, @"Caught range exception: %@", exception);
-        return NO;
-    }
+    return NO;
     
-    if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
-        return [self.externalDelegate textField:textField shouldChangeCharactersInRange:range replacementString:string];
-    } else {
-        return YES;
-    }
+//    if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
+//        return [self.externalDelegate textField:textField shouldChangeCharactersInRange:range replacementString:string];
+//    } else {
+//        return YES;
+//    }
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
