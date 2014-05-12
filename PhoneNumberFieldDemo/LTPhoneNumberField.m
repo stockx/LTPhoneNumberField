@@ -103,6 +103,7 @@ static NSString *const defaultRegion = @"US";
     NSString *formattedNumber;
     NSString *prefix;
     NSRange formattedRange;
+    NSString *removedCharacter;
     if (singleInsertAtEnd) {
         formattedNumber = [self.formatter inputDigit:string];
         if ([formattedNumber hasSuffix:string]) {
@@ -113,7 +114,7 @@ static NSString *const defaultRegion = @"US";
         }
     } else if (singleDeleteFromEnd) {
         formattedNumber = [self.formatter removeLastDigit];
-        NSString *removedCharacter = [textField.text substringWithRange:range];
+        removedCharacter = [textField.text substringWithRange:range];
         prefix = [formattedNumber stringByAppendingString:removedCharacter];
         formattedRange = [prefix rangeOfString:removedCharacter options:(NSBackwardsSearch | NSAnchoredSearch)];
         textField.text = prefix;
@@ -121,7 +122,21 @@ static NSString *const defaultRegion = @"US";
     }
     
     if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
-        return shouldChange && [self.externalDelegate textField:textField shouldChangeCharactersInRange:formattedRange replacementString:string];
+        if (shouldChange) {
+            if ([self.externalDelegate textField:textField shouldChangeCharactersInRange:formattedRange replacementString:string]) {
+                return YES;
+            } else {
+                // Revert changes
+                if (singleInsertAtEnd) {
+                    [self.formatter removeLastDigit];
+                } else if (singleDeleteFromEnd) {
+                    [self.formatter inputDigit:removedCharacter];
+                }
+                return NO;
+            }
+        } else {
+            return NO;
+        }
     } else {
         return shouldChange;
     }
