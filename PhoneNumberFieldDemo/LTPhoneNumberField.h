@@ -10,4 +10,6 @@
 
 @interface LTPhoneNumberField : UITextField
 
+- (instancetype)initWithFrame:(CGRect)frame regionCode:(NSString *)region;
+
 @end

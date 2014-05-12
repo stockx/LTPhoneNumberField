@@ -16,7 +16,7 @@ static NSString *const defaultRegion = @"US";
 @property (nonatomic, strong) NBAsYouTypeFormatter *formatter;
 @property (nonatomic, weak) id<UITextFieldDelegate> externalDelegate;
 
-- (void)setup;
+- (void)setupWithRegionCode:(NSString *)region;
 
 @end
 
@@ -24,12 +24,18 @@ static NSString *const defaultRegion = @"US";
 
 #pragma mark - Initialization
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame regionCode:(NSString *)region
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setup];
+        [self setupWithRegionCode:region];
     }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [self initWithFrame:frame regionCode:defaultRegion];
     return self;
 }
 
@@ -37,14 +43,14 @@ static NSString *const defaultRegion = @"US";
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self setup];
+        [self setupWithRegionCode:defaultRegion];
     }
     return self;
 }
 
-- (void)setup
+- (void)setupWithRegionCode:(NSString *)region
 {
-    self.formatter = [[NBAsYouTypeFormatter alloc] initWithRegionCode:defaultRegion];
+    self.formatter = [[NBAsYouTypeFormatter alloc] initWithRegionCode:region];
     super.delegate = self;
 }
 
