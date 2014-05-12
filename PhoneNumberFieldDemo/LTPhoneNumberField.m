@@ -99,20 +99,32 @@ static NSString *const defaultRegion = @"US";
     BOOL singleInsertAtEnd = (string.length == 1) && (range.location == textField.text.length);
     BOOL singleDeleteFromEnd = (string.length == 0) && (range.length == 1) && (range.location == textField.text.length - 1);
 
+    BOOL shouldChange = NO;
+    NSString *formattedNumber;
+    NSString *prefix;
+    NSRange formattedRange;
     if (singleInsertAtEnd) {
-        NSString *number = [self.formatter inputDigit:string];
-        textField.text = number;
+        formattedNumber = [self.formatter inputDigit:string];
+        if ([formattedNumber hasSuffix:string]) {
+            formattedRange = [formattedNumber rangeOfString:string options:(NSBackwardsSearch | NSAnchoredSearch)];
+            prefix = [formattedNumber stringByReplacingCharactersInRange:formattedRange withString:@""];
+            textField.text = prefix;
+            shouldChange = YES;
+        }
     } else if (singleDeleteFromEnd) {
-        NSString *number = [self.formatter removeLastDigit];
-        textField.text = number;
+        formattedNumber = [self.formatter removeLastDigit];
+        NSString *removedCharacter = [textField.text substringWithRange:range];
+        prefix = [formattedNumber stringByAppendingString:removedCharacter];
+        formattedRange = [prefix rangeOfString:removedCharacter options:(NSBackwardsSearch | NSAnchoredSearch)];
+        textField.text = prefix;
+        shouldChange = YES;
     }
-    return NO;
     
-//    if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
-//        return [self.externalDelegate textField:textField shouldChangeCharactersInRange:range replacementString:string];
-//    } else {
-//        return YES;
-//    }
+    if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
+        return shouldChange && [self.externalDelegate textField:textField shouldChangeCharactersInRange:formattedRange replacementString:string];
+    } else {
+        return shouldChange;
+    }
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
