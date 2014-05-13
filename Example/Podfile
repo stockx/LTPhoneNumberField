@@ -1,1 +1,3 @@
-pod 'libPhoneNumber-iOS'
+platform :ios
+
+podspec :path => "../LTPhoneNumberField.podspec"

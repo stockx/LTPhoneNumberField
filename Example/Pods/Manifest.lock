@@ -2,7 +2,7 @@ PODS:
   - libPhoneNumber-iOS (0.7.2)
 
 DEPENDENCIES:
-  - libPhoneNumber-iOS
+  - libPhoneNumber-iOS (~> 0.7.2)
 
 SPEC CHECKSUMS:
   libPhoneNumber-iOS: 0d337bdaf8fcbd9e1bd864f62f67afbb27d81d82
