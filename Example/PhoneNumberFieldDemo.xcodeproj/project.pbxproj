@@ -55,8 +55,8 @@
 		3B3EC1E7191C20E9005E13FA /* PhoneNumberFieldDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PhoneNumberFieldDemoTests-Info.plist"; sourceTree = "<group>"; };
 		3B3EC1E9191C20E9005E13FA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		3B3EC1EB191C20E9005E13FA /* PhoneNumberFieldDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhoneNumberFieldDemoTests.m; sourceTree = "<group>"; };
-		3B3EC1F5191C2EE6005E13FA /* LTPhoneNumberField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LTPhoneNumberField.h; sourceTree = "<group>"; };
-		3B3EC1F6191C2EE6005E13FA /* LTPhoneNumberField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LTPhoneNumberField.m; sourceTree = "<group>"; };
+		3B3EC1F5191C2EE6005E13FA /* LTPhoneNumberField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LTPhoneNumberField.h; path = ../../Classes/ios/LTPhoneNumberField.h; sourceTree = "<group>"; };
+		3B3EC1F6191C2EE6005E13FA /* LTPhoneNumberField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LTPhoneNumberField.m; path = ../../Classes/ios/LTPhoneNumberField.m; sourceTree = "<group>"; };
 		482D31BD77854856BA0CE23B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		57BE14C55B8E47BF9129418D /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
