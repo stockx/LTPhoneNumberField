@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "LTPhoneNumberField"
-  s.version          = "0.1.0"
+  s.version          = "0.2.0"
   s.summary          = "A UITextField subclass that formats a phone number as you type."
   s.description      = <<-DESC
                        LTPhoneNumberField is a subclass of UITextField that dynamically formats a phone number as it is typed by the user.
