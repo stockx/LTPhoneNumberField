@@ -122,7 +122,6 @@
         if ([formattedNumber hasSuffix:string]) {
             formattedRange = [formattedNumber rangeOfString:string options:(NSBackwardsSearch | NSAnchoredSearch)];
             prefix = [formattedNumber stringByReplacingCharactersInRange:formattedRange withString:@""];
-            textField.text = prefix;
             shouldChange = YES;
         }
     } else if (singleDeleteFromEnd) {
@@ -130,29 +129,29 @@
         removedCharacter = [textField.text substringWithRange:range];
         prefix = [formattedNumber stringByAppendingString:removedCharacter];
         formattedRange = [prefix rangeOfString:removedCharacter options:(NSBackwardsSearch | NSAnchoredSearch)];
-        textField.text = prefix;
         shouldChange = YES;
     }
     
-    if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
-        if (shouldChange) {
-            if ([self.externalDelegate textField:textField shouldChangeCharactersInRange:formattedRange replacementString:string]) {
-                return YES;
-            } else {
+    if (shouldChange) {
+        if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
+            textField.text = prefix;
+            if (![self.externalDelegate textField:textField shouldChangeCharactersInRange:formattedRange replacementString:string]) {
                 // Revert changes
                 if (singleInsertAtEnd) {
                     [self.formatter removeLastDigit];
                 } else if (singleDeleteFromEnd) {
                     [self.formatter inputDigit:removedCharacter];
                 }
-                return NO;
+            } else {
+                textField.text = formattedNumber;
+                [self checkValidity:formattedNumber];
             }
         } else {
-            return NO;
+            textField.text = formattedNumber;
+            [self checkValidity:formattedNumber];
         }
-    } else {
-        return shouldChange;
     }
+    return NO;
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
