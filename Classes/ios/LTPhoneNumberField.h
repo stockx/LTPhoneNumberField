@@ -13,7 +13,7 @@
 /**
  *  Returns a Boolean value indicating whether the entered phone number matches a valid pattern.
  */
-@property (nonatomic, readonly, getter = isValidNumber) BOOL validNumber;
+@property (nonatomic, readonly) BOOL containsValidNumber;
 
 /**
  *  Initializes and returns a newly allocated view object with the specified frame rectangle and region code.

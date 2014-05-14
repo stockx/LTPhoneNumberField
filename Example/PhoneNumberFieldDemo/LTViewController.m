@@ -9,7 +9,7 @@
 #import "LTViewController.h"
 #import "LTPhoneNumberField.h"
 
-static NSString *const isValidNumber = @"validNumber";
+static NSString *const isValidNumber = @"containsValidNumber";
 
 @implementation LTViewController
 
@@ -32,7 +32,7 @@ static NSString *const isValidNumber = @"validNumber";
     if ([keyPath isEqualToString:isValidNumber]) {
         LTPhoneNumberField *textField = object;
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.view.backgroundColor = textField.isValidNumber ? [UIColor greenColor] : [UIColor whiteColor];
+            self.view.backgroundColor = textField.containsValidNumber ? [UIColor greenColor] : [UIColor whiteColor];
         });
     }
 }

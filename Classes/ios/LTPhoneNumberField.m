@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NBAsYouTypeFormatter *formatter;
 @property (nonatomic, weak) id<UITextFieldDelegate> externalDelegate;
 @property (nonatomic, strong) NSString *regionCode;
-@property (nonatomic, readwrite) BOOL validNumber;
+@property (nonatomic, readwrite) BOOL containsValidNumber;
 
 - (void)setupWithRegionCode:(NSString *)region;
 - (void)checkValidity:(NSString *)number;
@@ -175,7 +175,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NBPhoneNumberUtil *util = [NBPhoneNumberUtil sharedInstance];
         NBPhoneNumber *phoneNumber = [util parse:number defaultRegion:self.regionCode error:nil];
-        self.validNumber = [util isValidNumber:phoneNumber];
+        self.containsValidNumber = [util isValidNumber:phoneNumber];
     });
 }
 
