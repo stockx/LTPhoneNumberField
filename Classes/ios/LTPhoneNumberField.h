@@ -10,6 +10,8 @@
 
 @interface LTPhoneNumberField : UITextField
 
+@property (nonatomic, readonly, getter = isValidNumber) BOOL validNumber;
+
 - (instancetype)initWithFrame:(CGRect)frame regionCode:(NSString *)region;
 
 @end

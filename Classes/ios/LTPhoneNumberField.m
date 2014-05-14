@@ -8,13 +8,17 @@
 
 #import "LTPhoneNumberField.h"
 #import <NBAsYouTypeFormatter.h>
+#import <NBPhoneNumberUtil.h>
 
 @interface LTPhoneNumberField () <UITextFieldDelegate>
 
 @property (nonatomic, strong) NBAsYouTypeFormatter *formatter;
 @property (nonatomic, weak) id<UITextFieldDelegate> externalDelegate;
+@property (nonatomic, strong) NSString *regionCode;
+@property (nonatomic, readwrite) BOOL validNumber;
 
 - (void)setupWithRegionCode:(NSString *)region;
+- (void)checkValidity:(NSString *)number;
 
 @end
 
@@ -56,8 +60,8 @@
 
 - (void)setupWithRegionCode:(NSString *)region
 {
-    region = region ?: [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
-    self.formatter = [[NBAsYouTypeFormatter alloc] initWithRegionCode:region];
+    self.regionCode = region ?: [[NSLocale currentLocale] objectForKey:NSLocaleCountryCode];
+    self.formatter = [[NBAsYouTypeFormatter alloc] initWithRegionCode:self.regionCode];
     super.delegate = self;
 }
 
@@ -170,6 +174,17 @@
     } else {
         return YES;
     }
+}
+
+#pragma mark - Custom logic
+
+- (void)checkValidity:(NSString *)number
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NBPhoneNumberUtil *util = [NBPhoneNumberUtil sharedInstance];
+        NBPhoneNumber *phoneNumber = [util parse:number defaultRegion:self.regionCode error:nil];
+        self.validNumber = [util isValidNumber:phoneNumber];
+    });
 }
 
 @end
