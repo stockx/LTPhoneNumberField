@@ -19,6 +19,7 @@
 
 - (void)setupWithRegionCode:(NSString *)region;
 - (void)checkValidity:(NSString *)number;
+- (void)assignText:(NSString *)text;
 
 @end
 
@@ -105,49 +106,51 @@
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    BOOL singleInsertAtEnd = (string.length == 1) && (range.location == textField.text.length);
-    BOOL singleDeleteFromEnd = (string.length == 0) && (range.length == 1) && (range.location == textField.text.length - 1);
-
-    BOOL shouldChange = NO;
-    NSString *formattedNumber;
-    NSString *prefix;
-    NSRange formattedRange;
-    NSString *removedCharacter;
-    if (singleInsertAtEnd) {
-        formattedNumber = [self.formatter inputDigit:string];
-        if ([formattedNumber hasSuffix:string]) {
-            formattedRange = [formattedNumber rangeOfString:string options:(NSBackwardsSearch | NSAnchoredSearch)];
-            prefix = [formattedNumber stringByReplacingCharactersInRange:formattedRange withString:@""];
+    if (textField == self) {
+        BOOL singleInsertAtEnd = (string.length == 1) && (range.location == textField.text.length);
+        BOOL singleDeleteFromEnd = (string.length == 0) && (range.length == 1) && (range.location == textField.text.length - 1);
+        
+        BOOL shouldChange = NO;
+        NSString *formattedNumber;
+        NSString *prefix;
+        NSRange formattedRange;
+        NSString *removedCharacter;
+        if (singleInsertAtEnd) {
+            formattedNumber = [self.formatter inputDigit:string];
+            if ([formattedNumber hasSuffix:string]) {
+                formattedRange = [formattedNumber rangeOfString:string options:(NSBackwardsSearch | NSAnchoredSearch)];
+                prefix = [formattedNumber stringByReplacingCharactersInRange:formattedRange withString:@""];
+                shouldChange = YES;
+            }
+        } else if (singleDeleteFromEnd) {
+            formattedNumber = [self.formatter removeLastDigit];
+            removedCharacter = [textField.text substringWithRange:range];
+            prefix = [formattedNumber stringByAppendingString:removedCharacter];
+            formattedRange = [prefix rangeOfString:removedCharacter options:(NSBackwardsSearch | NSAnchoredSearch)];
             shouldChange = YES;
         }
-    } else if (singleDeleteFromEnd) {
-        formattedNumber = [self.formatter removeLastDigit];
-        removedCharacter = [textField.text substringWithRange:range];
-        prefix = [formattedNumber stringByAppendingString:removedCharacter];
-        formattedRange = [prefix rangeOfString:removedCharacter options:(NSBackwardsSearch | NSAnchoredSearch)];
-        shouldChange = YES;
-    }
-    
-    if (shouldChange) {
-        if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
-            textField.text = prefix;
-            if (![self.externalDelegate textField:textField shouldChangeCharactersInRange:formattedRange replacementString:string]) {
-                // Revert changes
-                if (singleInsertAtEnd) {
-                    [self.formatter removeLastDigit];
-                } else if (singleDeleteFromEnd) {
-                    [self.formatter inputDigit:removedCharacter];
+        
+        if (shouldChange) {
+            if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
+                [self assignText:prefix];
+                if (![self.externalDelegate textField:textField shouldChangeCharactersInRange:formattedRange replacementString:string]) {
+                    // Revert changes
+                    if (singleInsertAtEnd) {
+                        [self.formatter removeLastDigit];
+                    } else if (singleDeleteFromEnd) {
+                        [self.formatter inputDigit:removedCharacter];
+                    }
+                } else {
+                    [self assignText:formattedNumber];
                 }
             } else {
-                textField.text = formattedNumber;
-                [self checkValidity:formattedNumber];
+                [self assignText:formattedNumber];
             }
-        } else {
-            textField.text = formattedNumber;
-            [self checkValidity:formattedNumber];
         }
+        return NO;
+    } else {
+        return YES;
     }
-    return NO;
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
@@ -175,7 +178,34 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NBPhoneNumberUtil *util = [NBPhoneNumberUtil sharedInstance];
         NBPhoneNumber *phoneNumber = [util parse:number defaultRegion:self.regionCode error:nil];
-        self.containsValidNumber = [util isValidNumber:phoneNumber];
+        BOOL isValid = [util isValidNumber:phoneNumber];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.containsValidNumber = isValid;
+        });
+    });
+}
+
+- (void)setText:(NSString *)text
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        NSString *formattedNumber;
+        for (NSInteger index; index < text.length; index++) {
+            unichar character = [text characterAtIndex:index];
+            if ([[NSCharacterSet decimalDigitCharacterSet] characterIsMember:character]) {
+                unichar array[1] = {character};
+                NSString *character = [NSString stringWithCharacters:array length:1];
+                formattedNumber = [self.formatter inputDigit:character];
+            }
+        }
+        [self assignText:formattedNumber];
+    });
+}
+
+- (void)assignText:(NSString *)text
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        super.text = text;
+        [self checkValidity:text];
     });
 }
 
