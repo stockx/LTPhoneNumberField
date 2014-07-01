@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, LTPhoneNumberFormat) {
+    LTPhoneNumberFormatE164,
+    LTPhoneNumberFormatINTERNATIONAL,
+    LTPhoneNumberFormatNATIONAL,
+    LTPhoneNumberFormatRFC3966
+};
+
 @interface LTPhoneNumberField : UITextField
 
 /**
@@ -24,5 +31,14 @@
  *  @return         An initialized LTPhoneNumberField object or nil if the object couldn't be created.
  */
 - (instancetype)initWithFrame:(CGRect)frame regionCode:(NSString *)region;
+
+/**
+ *  Returns a NSString of the current phone number formatted according to the given format parameter.
+ *
+ *  @param format   The LTPhoneNumberFormat option to format the phone number.
+ *  
+ *  @return         A NSString of the current phone number, or nil if there was a parsing error.
+ */
+- (NSString *)phoneNumberWithFormat:(LTPhoneNumberFormat)format;
 
 @end

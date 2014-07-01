@@ -209,4 +209,19 @@
     });
 }
 
+- (NSString *)phoneNumberWithFormat:(LTPhoneNumberFormat)format
+{
+    NBPhoneNumberUtil *util = [NBPhoneNumberUtil sharedInstance];
+    
+    NSError *error;
+    NBPhoneNumber *phoneNumber = [util parse:self.text defaultRegion:self.regionCode error:&error];
+    
+    if (!error) {
+        return [util format:phoneNumber numberFormat:(NBEPhoneNumberFormat)format error:&error];
+    }
+    
+    NSLog(@"Error parsing phone number: %@", error);
+    return nil;
+}
+
 @end
