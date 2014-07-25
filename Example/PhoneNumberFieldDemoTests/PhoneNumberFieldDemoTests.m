@@ -3,7 +3,7 @@
 //  PhoneNumberFieldDemoTests
 //
 //  Created by Colin Regan on 5/8/14.
-//  Copyright (c) 2014 Lua Technologies, LLC. All rights reserved.
+//  Copyright (c) 2014 Lua Technologies, Inc. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

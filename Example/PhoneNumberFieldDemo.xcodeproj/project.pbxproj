@@ -211,7 +211,7 @@
 			attributes = {
 				CLASSPREFIX = LT;
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = "Lua Technologies, LLC";
+				ORGANIZATIONNAME = "Lua Technologies, Inc";
 				TargetAttributes = {
 					3B3EC1DD191C20E9005E13FA = {
 						TestTargetID = 3B3EC1BC191C20E8005E13FA;
