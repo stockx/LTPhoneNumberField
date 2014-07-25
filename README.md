@@ -1,13 +1,20 @@
 # LTPhoneNumberField
 
-[![Version](http://cocoapod-badges.herokuapp.com/v/LTPhoneNumberField/badge.png)](http://cocoadocs.org/docsets/LTPhoneNumberField)
-[![Platform](http://cocoapod-badges.herokuapp.com/p/LTPhoneNumberField/badge.png)](http://cocoadocs.org/docsets/LTPhoneNumberField)
+<p align="center"><img src="http://i.imgur.com/JUScCnk.gif"/></p>
+
+LTPhoneNumberField is a subclass of UITextField that dynamically formats a phone number as it is typed. It relies on an obj-c port of Google's libphonenumber library to handle phone number parsing.
 
 ## Usage
 
 To run the example project; clone the repo, and run `pod install` from the Example directory first.
 
+* Use `initWithFrame:regionCode:` to initialize. Uses current locale if no region code is specified
+* Readonly BOOL property `containsValidNumber` fires KVO notifications if its value changes
+* Instance method `phoneNumberWithFormat:` returns the current phone number in the specified format
+
 ## Requirements
+
+* Tested on iOS 6.1 and above, including iOS 7
 
 ## Installation
 
@@ -18,7 +25,7 @@ it simply add the following line to your Podfile:
 
 ## Author
 
-Colin Regan, colin@redcup.la
+Colin Regan, colin@getlua.com
 
 ## License
 
