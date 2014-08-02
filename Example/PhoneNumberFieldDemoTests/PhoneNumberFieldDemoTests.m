@@ -7,8 +7,11 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "LTPhoneNumberField.h"
 
 @interface PhoneNumberFieldDemoTests : XCTestCase
+
+@property (strong, nonatomic) LTPhoneNumberField *textField;
 
 @end
 
@@ -17,7 +20,7 @@
 - (void)setUp
 {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    self.textField = [[LTPhoneNumberField alloc] initWithFrame:CGRectZero regionCode:nil];
 }
 
 - (void)tearDown
@@ -26,9 +29,14 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testSuccessfullyCreatesTextField
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    XCTAssertNotNil(self.textField, @"Should be initialized before every test");
+}
+
+- (void)testTextFieldIsEmptyOnFirstLoad
+{
+    XCTAssertNil([self.textField phoneNumberWithFormat:LTPhoneNumberFormatE164], @"Should return nil if no phone number has been entered");
 }
 
 @end
