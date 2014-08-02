@@ -188,15 +188,14 @@
 - (void)setText:(NSString *)text
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        NSString *formattedNumber;
-        for (NSInteger index; index < text.length; index++) {
-            unichar character = [text characterAtIndex:index];
+        __block NSString *formattedNumber;
+        [text enumerateSubstringsInRange:NSMakeRange(0, text.length) options:NSStringEnumerationByComposedCharacterSequences usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+            unichar character = [substring characterAtIndex:substringRange.length - 1];
             if ([[NSCharacterSet decimalDigitCharacterSet] characterIsMember:character]) {
-                unichar array[1] = {character};
-                NSString *character = [NSString stringWithCharacters:array length:1];
-                formattedNumber = [self.formatter inputDigit:character];
+                NSString *digit = [NSString stringWithFormat:@"%C", character];
+                formattedNumber = [self.formatter inputDigit:digit];
             }
-        }
+        }];
         [self assignText:formattedNumber];
     });
 }
