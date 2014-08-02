@@ -15,6 +15,8 @@ static NSString *const isValidNumber = @"containsValidNumber";
 
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
     self.phoneNumber.delegate = self;
     [self.phoneNumber addObserver:self forKeyPath:isValidNumber options:0 context:NULL];
 }
