@@ -11,6 +11,7 @@ To run the example project; clone the repo, and run `pod install` from the Examp
 * Use `initWithFrame:regionCode:` to initialize. Uses current locale if no region code is specified
 * Readonly BOOL property `containsValidNumber` fires KVO notifications if its value changes
 * Instance method `phoneNumberWithFormat:` returns the current phone number in the specified format
+* `setText:` method filters out all non-numeric characters and formats the phone number before assigning it to the text field
 
 ## Requirements
 
