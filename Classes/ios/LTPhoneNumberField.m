@@ -131,6 +131,17 @@
         }
         
         if (shouldChange) {
+//            UITextPosition *beginning = textField.beginningOfDocument;
+//            UITextPosition *start = [textField positionFromPosition:beginning offset:range.location];
+//            UITextPosition *end = [textField positionFromPosition:start offset:range.length];
+//            UITextRange *textRange = [textField textRangeFromPosition:start toPosition:end];
+//            
+//            // this will be the new cursor location after insert/paste/typing
+//            NSInteger cursorOffset = [textField offsetFromPosition:beginning toPosition:start] + string.length;
+//            
+//            // now apply the text changes that were typed or pasted in to the text field
+//            [textField replaceRange:textRange withText:string];
+            
             if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
                 [self assignText:prefix];
                 if (![self.externalDelegate textField:textField shouldChangeCharactersInRange:formattedRange replacementString:string]) {
@@ -146,6 +157,10 @@
             } else {
                 [self assignText:formattedNumber];
             }
+//            
+//            UITextPosition *newCursorPosition = [textField positionFromPosition:textField.beginningOfDocument offset:cursorOffset];
+//            UITextRange *newSelectedRange = [textField textRangeFromPosition:newCursorPosition toPosition:newCursorPosition];
+//            [textField setSelectedTextRange:newSelectedRange];
         }
         return NO;
     } else {
