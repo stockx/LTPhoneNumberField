@@ -18,6 +18,15 @@
 - (NSString*)inputDigitAndRememberPosition:(NSString*)nextChar;
 
 - (NSString*)removeLastDigit;
+
+/**
+ Removes the digit at index `formattedPhoneNumberIndex`
+ in the formatted phone number.
+ 
+ If the character at `formattedPhoneNumberIndex` is not a digit 
+ (e.g. '(', '+', '-'), will remove the nearest digit to the left.
+ */
+- (NSString*)removeDigitAt:(NSInteger)formattedPhoneNumberIndex;
 - (NSString*)removeLastDigitAndRememberPosition;
 
 - (NSInteger)getRememberedPosition;

@@ -108,7 +108,7 @@
 {
     if (textField == self) {
         BOOL singleInsertAtEnd = (string.length == 1) && (range.location == textField.text.length);
-        BOOL singleDeleteFromEnd = (string.length == 0) && (range.length == 1) && (range.location == textField.text.length - 1);
+        BOOL singleDelete = (string.length == 0) && (range.length == 1);
         
         BOOL shouldChange = NO;
         NSString *formattedNumber;
@@ -122,8 +122,8 @@
                 prefix = [formattedNumber stringByReplacingCharactersInRange:formattedRange withString:@""];
                 shouldChange = YES;
             }
-        } else if (singleDeleteFromEnd) {
-            formattedNumber = [self.formatter removeLastDigit];
+        } else if (singleDelete) {
+            formattedNumber = [self.formatter removeDigitAt:range.location];
             removedCharacter = [textField.text substringWithRange:range];
             prefix = [formattedNumber stringByAppendingString:removedCharacter];
             formattedRange = [prefix rangeOfString:removedCharacter options:(NSBackwardsSearch | NSAnchoredSearch)];
@@ -137,7 +137,7 @@
                     // Revert changes
                     if (singleInsertAtEnd) {
                         [self.formatter removeLastDigit];
-                    } else if (singleDeleteFromEnd) {
+                    } else if (singleDelete) {
                         [self.formatter inputDigit:removedCharacter];
                     }
                 } else {

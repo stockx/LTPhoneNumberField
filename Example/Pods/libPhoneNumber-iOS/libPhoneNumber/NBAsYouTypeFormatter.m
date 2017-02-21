@@ -586,18 +586,35 @@
     return result;
 }
 
-- (NSString*)removeLastDigit
+- (NSString*)removeDigitAt:(NSInteger)formattedPhoneNumberIndex
 {
-    NSString *accruedInputWithoutFormatting = [self.accruedInput_ copy];
-    [self clear];
+    NSString *formattedPhoneNumber = self.currentOutput_;
     
+    NSString *currentOutputCharacterAtIndex = [self.currentOutput_ substringWithRange:NSMakeRange(formattedPhoneNumberIndex, 1)];
+    
+    if ([currentOutputCharacterAtIndex rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == NSNotFound) {
+        return [self removeDigitAt:(formattedPhoneNumberIndex - 1)];
+    }
+
+    [self clear];
+
     NSString *result = @"";
-    for (unsigned int i=0; i<accruedInputWithoutFormatting.length - 1; i++) {
-        NSString *ch = [accruedInputWithoutFormatting substringWithRange:NSMakeRange(i, 1)];
-        result = [self inputDigit:ch];
+    for (NSUInteger i = 0; i < formattedPhoneNumber.length; i++) {
+        if (i != formattedPhoneNumberIndex) {
+            NSString *c = [formattedPhoneNumber substringWithRange:NSMakeRange(i, 1)];
+            if ([c rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location != NSNotFound) {
+                result = [self inputDigit:c];
+            }
+        }
     }
     
     return result;
+}
+
+- (NSString*)removeLastDigit
+{
+    NSString *accruedInputWithoutFormatting = [self.currentOutput_ copy];
+    return [self removeDigitAt:accruedInputWithoutFormatting.length - 1];
 }
 
 /**
