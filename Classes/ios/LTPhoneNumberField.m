@@ -10,6 +10,35 @@
 #import <NBAsYouTypeFormatter.h>
 #import <NBPhoneNumberUtil.h>
 
+@interface UITextField (LTPhoneNumberField)
+
+- (UITextPosition *)textPositionOfNextDigitLeftOf:(UITextPosition *)textPosition;
+
+@end
+
+@implementation UITextField (LTPhoneNumberField)
+
+- (UITextPosition *)textPositionOfNextDigitLeftOf:(UITextPosition *)textPosition
+{
+    NSInteger offset = [self offsetFromPosition:self.beginningOfDocument toPosition:textPosition];
+    if (offset > 0 && offset <= self.text.length) {
+        NSString *characterLeftOfTextPosition = [self.text substringWithRange:NSMakeRange(offset - 1, 1)];
+        
+        if ([characterLeftOfTextPosition rangeOfCharacterFromSet:[NSCharacterSet decimalDigitCharacterSet]].location == NSNotFound) {
+            UITextPosition *newPosition = [self positionFromPosition:textPosition inDirection:UITextLayoutDirectionLeft offset:1];
+            return [self textPositionOfNextDigitLeftOf:newPosition];
+        }
+        else {
+            return textPosition;
+        }
+    }
+    else {
+        return textPosition;
+    }
+}
+
+@end
+
 @interface LTPhoneNumberField () <UITextFieldDelegate>
 
 @property (nonatomic, strong) NBAsYouTypeFormatter *formatter;
@@ -130,17 +159,9 @@
             shouldChange = YES;
         }
         
-        if (shouldChange) {
-//            UITextPosition *beginning = textField.beginningOfDocument;
-//            UITextPosition *start = [textField positionFromPosition:beginning offset:range.location];
-//            UITextPosition *end = [textField positionFromPosition:start offset:range.length];
-//            UITextRange *textRange = [textField textRangeFromPosition:start toPosition:end];
-//            
-//            // this will be the new cursor location after insert/paste/typing
-//            NSInteger cursorOffset = [textField offsetFromPosition:beginning toPosition:start] + string.length;
-//            
-//            // now apply the text changes that were typed or pasted in to the text field
-//            [textField replaceRange:textRange withText:string];
+        if (shouldChange) {            
+            UITextPosition *beginning = textField.beginningOfDocument;
+            UITextPosition *cursorLocation = [textField positionFromPosition:beginning offset:(range.location + string.length)];
             
             if ([self.externalDelegate respondsToSelector:@selector(textField:shouldChangeCharactersInRange:replacementString:)]) {
                 [self assignText:prefix];
@@ -157,10 +178,17 @@
             } else {
                 [self assignText:formattedNumber];
             }
-//            
-//            UITextPosition *newCursorPosition = [textField positionFromPosition:textField.beginningOfDocument offset:cursorOffset];
-//            UITextRange *newSelectedRange = [textField textRangeFromPosition:newCursorPosition toPosition:newCursorPosition];
-//            [textField setSelectedTextRange:newSelectedRange];
+            
+            if (cursorLocation) {
+                if (singleDelete) {
+                    // If the character to the left of the cursor is not a digit, continue looking left until finding a digit, then position the cursor there.
+                    UITextPosition *newPosition = [textField textPositionOfNextDigitLeftOf:cursorLocation];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [textField setSelectedTextRange:[textField textRangeFromPosition:newPosition toPosition:newPosition]];
+                    });
+                }
+            }
         }
         return NO;
     } else {
