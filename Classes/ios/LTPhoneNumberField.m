@@ -159,7 +159,7 @@
             shouldChange = YES;
         }
         
-        if (shouldChange) {            
+        if (shouldChange) {
             UITextPosition *beginning = textField.beginningOfDocument;
             UITextPosition *cursorLocation = [textField positionFromPosition:beginning offset:(range.location + string.length)];
             
