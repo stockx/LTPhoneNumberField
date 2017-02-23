@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03EF22A71E5F3B4200734700 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03EF22A61E5F3B4200734700 /* LaunchScreen.storyboard */; };
 		3B3EC1C1191C20E8005E13FA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3EC1C0191C20E8005E13FA /* Foundation.framework */; };
 		3B3EC1C3191C20E8005E13FA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3EC1C2191C20E8005E13FA /* CoreGraphics.framework */; };
 		3B3EC1C5191C20E8005E13FA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B3EC1C4191C20E8005E13FA /* UIKit.framework */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03EF22A61E5F3B4200734700 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3B3EC1BD191C20E8005E13FA /* PhoneNumberFieldDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhoneNumberFieldDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3EC1C0191C20E8005E13FA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3B3EC1C2191C20E8005E13FA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -124,6 +126,7 @@
 				3B3EC1CF191C20E9005E13FA /* LTAppDelegate.h */,
 				3B3EC1D0191C20E9005E13FA /* LTAppDelegate.m */,
 				3B3EC1D2191C20E9005E13FA /* Main.storyboard */,
+				03EF22A61E5F3B4200734700 /* LaunchScreen.storyboard */,
 				3B3EC1D5191C20E9005E13FA /* LTViewController.h */,
 				3B3EC1D6191C20E9005E13FA /* LTViewController.m */,
 				3B3EC1F5191C2EE6005E13FA /* LTPhoneNumberField.h */,
@@ -213,6 +216,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Lua Technologies, Inc";
 				TargetAttributes = {
+					3B3EC1BC191C20E8005E13FA = {
+						DevelopmentTeam = MW2SQEN6V2;
+					};
 					3B3EC1DD191C20E9005E13FA = {
 						TestTargetID = 3B3EC1BC191C20E8005E13FA;
 					};
@@ -243,6 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3B3EC1D9191C20E9005E13FA /* Images.xcassets in Resources */,
+				03EF22A71E5F3B4200734700 /* LaunchScreen.storyboard in Resources */,
 				3B3EC1CB191C20E9005E13FA /* InfoPlist.strings in Resources */,
 				3B3EC1D4191C20E9005E13FA /* Main.storyboard in Resources */,
 			);
@@ -424,7 +431,7 @@
 			baseConfigurationReference = 57BE14C55B8E47BF9129418D /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = MW2SQEN6V2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhoneNumberFieldDemo/PhoneNumberFieldDemo-Prefix.pch";
 				INFOPLIST_FILE = "PhoneNumberFieldDemo/PhoneNumberFieldDemo-Info.plist";
@@ -439,7 +446,7 @@
 			baseConfigurationReference = 57BE14C55B8E47BF9129418D /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = MW2SQEN6V2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhoneNumberFieldDemo/PhoneNumberFieldDemo-Prefix.pch";
 				INFOPLIST_FILE = "PhoneNumberFieldDemo/PhoneNumberFieldDemo-Info.plist";
