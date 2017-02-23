@@ -11,5 +11,6 @@
 @interface LTViewController : UIViewController <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumber;
+@property (weak, nonatomic) IBOutlet UILabel *thumbsup;
 
 @end

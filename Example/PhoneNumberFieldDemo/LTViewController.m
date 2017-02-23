@@ -17,6 +17,8 @@ static NSString *const isValidNumber = @"containsValidNumber";
 {
     [super viewDidLoad];
     
+    self.thumbsup.hidden = YES;
+    
     self.phoneNumber.delegate = self;
     [self.phoneNumber addObserver:self forKeyPath:isValidNumber options:0 context:NULL];
 }
@@ -34,7 +36,7 @@ static NSString *const isValidNumber = @"containsValidNumber";
     if ([keyPath isEqualToString:isValidNumber]) {
         LTPhoneNumberField *textField = object;
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.view.backgroundColor = textField.containsValidNumber ? [UIColor greenColor] : [UIColor whiteColor];
+            self.thumbsup.hidden = textField.containsValidNumber ? NO : YES;
         });
     }
 }
