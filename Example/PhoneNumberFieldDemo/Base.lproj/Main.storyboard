@@ -23,11 +23,11 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lt8-cN-UtY" customClass="LTPhoneNumberField">
-                                <rect key="frame" x="20" y="20" width="335" height="100"/>
+                                <rect key="frame" x="20" y="20" width="335" height="200"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="100" id="wdC-Yr-Q01"/>
+                                    <constraint firstAttribute="height" constant="200" id="wdC-Yr-Q01"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                 <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                             </textField>
                         </subviews>
